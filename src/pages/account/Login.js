@@ -7,7 +7,14 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import {auth, db, provider} from '../../firebase';
 import firebase from 'firebase';
+import { useDispatch } from 'react-redux';
 
+
+
+
+
+const {user} = useSelector (state => state.user)
+const dispatch = useDispatch()
 
 
 function Login() {
@@ -69,6 +76,7 @@ const signInWithGoogle = async () => {
   .then((userCredential) => {
     // Signed in
     var user = userCredential.user; console.log(user);
+    dispatch (user)
     history.push("/");
     // 
   })}
