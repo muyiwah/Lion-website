@@ -7,17 +7,20 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import {auth, db, provider} from '../../firebase';
 import firebase from 'firebase';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {selectUserName, selectUserEmail, selectLastName, selectFirstName} from '../../fea';
 
 
 
-
-
-const {user} = useSelector (state => state.user)
-const dispatch = useDispatch()
 
 
 function Login() {
+
+const userName = useSelector (selectUserName)
+const userEmail = useSelector (selectUserEmail)
+const userFirstName = useSelector (selectFirstName)
+const userLastName = useSelector (selectLastName)
+const dispatch = useDispatch()
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
