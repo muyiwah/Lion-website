@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     userName: null,
-    email: null,
+    userEmail: null,
     firstName: null,
     lastName: null,
 }
@@ -13,15 +13,15 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setActiveUsers: (state, action) => {
+        setActiveUser: (state, action) => {
             state.userName = action.payload.userName;
-            state.email = action.payload.userEmail;
+            state.userEmail = action.payload.userEmail;
             state.firstName = action.payload.firstName;
             state.lastName = action.payload.lastName;
         },
         setUserLogout: (state) => {
             state.userName = null;
-            state.email = null;
+            state.userEmail = null;
             state.firstName =null;
             state.lastName = null;
         },
@@ -29,10 +29,10 @@ const userSlice = createSlice({
     }
 });
 
-export const {setActiveUsers, setUserLogout} = userSlice.actions;
+export const {setActiveUser, setUserLogout} = userSlice.actions;
 
 export const selectUserName = state => state.user.userName;
-export const selectUserEmail = state => state.user.email;
+export const selectUserEmail = state => state.user.userEmail;
 export const selectFirstName = state => state.user.firstName;
 export const selectLastName = state => state.user.lastName;
 
