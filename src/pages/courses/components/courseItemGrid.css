@@ -1,0 +1,8 @@
+.desc{
+
+    height: 80px !important;
+
+text-overflow: ellipsis !important;
+overflow: hidden !important;
+
+}

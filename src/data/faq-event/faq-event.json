@@ -1,0 +1,48 @@
+{
+    "eventDataList": [
+        {
+            "id": "1",
+            "eventDate": "25 March",
+            "eventTitle": "2020 admidion fair going on this week",
+            "eventTime": "5:30pm - 7.00pm",
+            "eventLocation": "Newyork,NY.",
+            "eventdesc": "Lorem ipsum dolor sit amet consectetur. Como Ssee hou",
+            "eventLink": "/event-details"
+        },
+        {
+            "id": "2",
+            "eventDate": "25 March",
+            "eventTitle": "2020 admidion fair going on this week",
+            "eventTime": "5:30pm - 7.00pm",
+            "eventLocation": "Newyork,NY.",
+            "eventdesc": "Lorem ipsum dolor sit amet consectetur. Como Ssee hou",
+            "eventLink": "/event-details"
+        },
+        {
+            "id": "3",
+            "eventDate": "25 March",
+            "eventTitle": "2020 admidion fair going on this week",
+            "eventTime": "5:30pm - 7.00pm",
+            "eventLocation": "Newyork,NY.",
+            "eventdesc": "Lorem ipsum dolor sit amet consectetur. Como Ssee hou",
+            "eventLink": "/event-details"
+        }
+    ],
+    "faqDataList": [
+        {
+            "id": "1",
+            "faqTitle": "What is Forex?",
+            "faqDesc": "Forex is the name of the international interbank foreign exchange market (short for Foreign Exchange Market), one of the largest segments of the global financial industry."
+        },
+        {
+            "id": "2",
+            "faqTitle": "How long will i have access to the course?",
+            "faqDesc": "The tarining modules are open for courses paid as long as your account is active. "
+        },
+        {
+            "id": "3",
+            "faqTitle": "How Can I Earn Money Trading Forex?",
+            "faqDesc": "You earn money in Forex due to the difference in exchange rates. The trade mechanism is simple: you buy, for example, 1 Euro for $ 1.2 and wait until the Euro rises to 1.3 dollars. Once this happens, you sell the Euro and get a profit of $0.1."
+        }
+    ]
+}

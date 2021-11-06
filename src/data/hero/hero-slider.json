@@ -1,0 +1,20 @@
+[
+    {
+        "id": "1",
+        "backgroundImage": "student-1.jpg",
+        "uniqClass": "slider-box slider-box1",
+        "title": "Welcome To Lion Dynasty.",
+        "desc": "Learn Forex From Beginners To Advanced Level",
+        "btnOneLink": "course-grid",
+        "btnTwoLink": "contact"
+    },
+    {
+        "id": "2",
+        "backgroundImage": "student-2.jpg",
+        "uniqClass": "slider-box slider-box2 text-right",
+        "title": "Welcome To Lion Dynasty.",
+        "desc": "Own Your Future by Learning Forex Today",
+        "btnOneLink": "course-grid",
+        "btnTwoLink": "contact"
+    }
+]

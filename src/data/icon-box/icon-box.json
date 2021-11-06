@@ -1,0 +1,30 @@
+[
+    {
+        "id": "1",
+        "link": "https://play.google.com/store/apps/details?id=com.liondna.liondnafx",
+        "uniqClass": "box-icon box1",
+        "boxIcon": "playstore.png",
+        "title": "Android",
+        "subTitle": "Download our app at Google Playstore."
+    }
+    ,
+    {
+        "id": "2",
+        "link": "https://apps.apple.com/us/app/liondna-fx-signals/id1536269823",
+        "uniqClass": "box-icon box2",
+        "boxIcon": "ios.jpg",
+        "title": "IOS",
+        "subTitle": "Download the IOS app at Apple Store."
+    }
+    
+    ,
+    {
+        "id": "3",
+        "link": "https://t.me/liondnafx",
+        "uniqClass": "box-icon box2",
+        "boxIcon": "telegram.png",
+        "title": "Telegram",
+        "subTitle": "Join the Telegram Channel to ."
+    }
+    
+]

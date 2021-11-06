@@ -1,0 +1,53 @@
+{
+    "secTitle": "We Do What We Love To Do. Find the Best Course To Fit Your Needs.",
+    "dataList": [
+        {
+            "id": "1",
+            "imgUrl": "course-1.jpg",
+            "price": "$182.00",
+            "courseTitle": "Web design and development",
+            "courseDesc": "Want to become a complete web developer? here is a complete web development course, through which you can learn to become a complete web....",
+            "courseLink": "/course-details"
+        },
+        {
+            "id": "2",
+            "imgUrl": "course-2.jpg",
+            "price": "$13",
+            "courseTitle": "Graphics",
+            "courseDesc": "Graphic Design is a course that explores graphic communication through the understanding of the elements and principles of design...",
+            "courseLink": "/course-details"
+        },
+        {
+            "id": "3",
+            "imgUrl": "course-3.jpg",
+            "price": "$104.99",
+            "courseTitle": "Digital Marketing Course",
+            "courseDesc": "This course provides a detailed understanding about Digital Marketing concepts, strategies, and implementation, including planning a website, website marketing ...",
+            "courseLink": "/course-details"
+        },
+        {
+            "id": "4",
+            "imgUrl": "course-4.jpg",
+            "price": "$52.49",
+            "courseTitle": "Importation/Drop shipping",
+            "courseDesc": "A. INTRODUCTION 1. Understanding importation 2. Requirements 3. Where to import from / ideal products for importation B. IMPORTATION FROM CHINA 1. How to...",
+            "courseLink": "/course-details"
+        },
+        {
+            "id": "5",
+            "imgUrl": "course-5.jpg",
+            "price": "$770",
+            "courseTitle": "Forex Beginner (Total Package) 3 Months",
+            "courseDesc": "This is the complete package for a duration of 3 months. We will teach you all you want to know about forex.",
+            "courseLink": "/course-details"
+        },
+        {
+            "id": "6",
+            "imgUrl": "course-6.jpg",
+            "price": "$295",
+            "courseTitle": "Forex Beginner (Total Package) 1 Months",
+            "courseDesc": "This is the complete package for a duration of 1 month. We will teach you all you want to know about forex.",
+            "courseLink": "/course-details"
+        }
+    ]
+}
