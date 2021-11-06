@@ -31,8 +31,7 @@ import Team__coo from './Team__coo';
 import SocialMedia from './pages/events/Events';
 import Dashboard from './pages/Dashboard'
 import Forum from './pages/forum/Forum';
-import {useSelector} from 'react-redux'
-import {selectUser} from './features/userSlice'
+
 
 
 
