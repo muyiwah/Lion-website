@@ -9,7 +9,7 @@ import userReducer  from './features/userSlice';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 const rootReducer = combineReducers({
-    content: userReducer,
+    user: userReducer,
   });
 
   const store = createStore(rootReducer, composeWithDevTools());
