@@ -8,7 +8,7 @@ import Footer from '../../components/Footer';
 import {auth, db, provider} from '../../firebase';
 import firebase from 'firebase';
 import { useDispatch, useSelector } from 'react-redux';
-import {selectUserName, selectUserEmail, selectLastName, selectFirstName} from '../../fea';
+import {selectUserName, selectUserEmail, selectLastName, selectFirstName} from '../../features/userSlice';
 
 
 
