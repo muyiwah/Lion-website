@@ -82,12 +82,14 @@ const signInWithGoogle = async () => {
   .then((result) => {
     // Signed in
     var user = result.user; console.log(user);
-    dispatch(setActiveUser({
-        userName: result.user.name,
-        userEmail: result.user.email,
-        userFirstName: result.user.firstName,
-        userLastName: result.user.lastName,
+    localStorage.setItem("user", JSON.stringify(user))
+   const data = JSON.parse(localStorage.getItem("user"))
+        dispatch(setActiveUser({
+        userName: data.name,
+        userEmail: data.email,
+      
     }))
+    
     history.push("/");
     // 
   })}

@@ -74,7 +74,7 @@ var name2 = ""
               setUsername("")
               setEmail("")
               setPassword("")
-            history.push("/dashboard") 
+            history.push("/login") 
           }
           else {
               const payload= {
