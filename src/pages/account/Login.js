@@ -7,27 +7,33 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import {auth, db, provider} from '../../firebase';
 import firebase from 'firebase';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {setActiveUser, selectUserName, selectUserEmail, selectLastName, selectFirstName} from '../../features/userSlice';
 
 
 
-
-
-const {user} = useSelector (state => state.user)
-const dispatch = useDispatch()
 
 
 function Login() {
 
+    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-  
+    
     const history = useHistory();
-
+    
+    const userName = useSelector (selectUserName)
+    const userEmail = useSelector (selectUserEmail)
+    const userFirstName = useSelector (selectFirstName)
+    const userLastName = useSelector (selectLastName)
+    const dispatch = useDispatch()
 
 const googleLogin = () => {
     auth.signInWithPopup(provider).then((result) => {
-        console.log(result);
+        dispatch(setActiveUser({ 
+            userName: result.user.displayName,
+            userEmail: result.user.email
+        }));
     }).catch((error) => {
         console.log(error.message)
     })
@@ -73,10 +79,15 @@ const signInWithGoogle = async () => {
 
  const loginNow= async (e)=>{ e.preventDefault();
      try{firebase.auth().signInWithEmailAndPassword(email, password)
-  .then((userCredential) => {
+  .then((result) => {
     // Signed in
-    var user = userCredential.user; console.log(user);
-    dispatch (user)
+    var user = result.user; console.log(user);
+    dispatch(setActiveUser({
+        userName: result.user.name,
+        userEmail: result.user.email,
+        userFirstName: result.user.firstName,
+        userLastName: result.user.lastName,
+    }))
     history.push("/");
     // 
   })}
@@ -130,7 +141,7 @@ const signInWithGoogle = async () => {
                                         <div className="social-login text-center">
                                             <p>Login With Social</p>
                                             <ul className="list-unstyled list-inline">
-                                                <li className="list-inline-item" onClick={signInWithGoogle} ><a href={process.env.PUBLIC_URL + "/"} ><i className="fab fa-google" ></i> Google</a></li>
+                                                <li className="list-inline-item" onClick={googleLogin} ><a href={process.env.PUBLIC_URL + "/"} ><i className="fab fa-google" ></i> Google</a></li>
                                                 <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-facebook-f"></i> Facebook</a></li>
                                                 <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-twitter"></i> Twitter</a></li>
                                             </ul>
