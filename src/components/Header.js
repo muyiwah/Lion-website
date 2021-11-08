@@ -202,7 +202,7 @@ const Header = ()=> {
                                                 
                                             </li>
                                             <li className="nav-item dropdown">
-                                                <Link className="nav-link dropdown-toggle" to={process.env.PUBLIC_URL + "/"} data-toggle="dropdown"></Link>
+                                                <Link className="nav-link dropdown-toggle" to={process.env.PUBLIC_URL + "/"} data-toggle="dropdown">Forum</Link>
                                                 
                                             </li>
                                             

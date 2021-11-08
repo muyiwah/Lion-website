@@ -67,7 +67,7 @@ function CourseItemGrid () {
                 }
 
                 <Col md="12" className="text-center">
-                    <Pagination />
+                    {/* <Pagination /> */}
                 </Col>
             </Fragment>
         )

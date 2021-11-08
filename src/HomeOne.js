@@ -7,7 +7,10 @@ import TestimonialSlider from './components/TestimonialSlider';
 import FaqEvent from './components/FaqEvent';
 import Footer from './components/Footer';
 import IconBox from './components/IconBox';
-import {db} from './firebase'
+import {db} from './firebase';
+import { Styles } from "./components/styles/faqEvent";
+import { Row } from 'react-bootstrap';
+
 function HomeOne() {
  const [postJSON, setPostJSON] = useState([])
 
@@ -70,10 +73,10 @@ if (posts){console.log("home",posts)}
 
                 {/* <FreeCourse /> */}
 
-
+               
                 {/* Faq & Event Area */}
                 < FaqEvent />
-            
+                
                 {/* Footer */}
                 < Footer />
 

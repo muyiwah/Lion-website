@@ -1,19 +1,19 @@
 import React from 'react'
-import {auth} from  '../firebase'
+import Footer from '../components/Footer'
+import Header from '../components/Header'
+import {auth} from  '../firebase';
+import './dashboard.css';
  export default function Dashboard() {
 
-const signOut = ()=>{
-auth.signOut()
-    
-
-}
 
 
 
     return (
         <div>
+             < Header />
+               
            <h1>this is Dashboard Route</h1> 
-           <button onClick={signOut}>Log Out</button>
+            <Footer />
         </div>
     )
 }
