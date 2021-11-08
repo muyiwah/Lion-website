@@ -6,7 +6,7 @@ export const Styles = styled.div`
         background-size    : cover;
         background-position: center;
         background-repeat  : no-repeat;
-        height             : 700px;
+        height             : 400px;
         position           : relative;
 
         &::before {
@@ -20,16 +20,7 @@ export const Styles = styled.div`
             left      : 0;
         }
 
-        .round-shape {
-            background-position: bottom;
-            background-repeat  : no-repeat;
-            background-size    : contain;
-            position           : absolute;
-            bottom             : 0;
-            left               : 0;
-            width              : 100%;
-            height             : 100%;
-        }
+      
 
         .hero-table {
             display : table;
@@ -49,7 +40,7 @@ export const Styles = styled.div`
                         color        : #ffffff;
                         max-width    : 700px;
                         margin       : auto;
-                        margin-bottom: 20px;
+                        margin-top: 50px;
                         font-weight  : 600;
 
                         @media(max-width: 767px) {

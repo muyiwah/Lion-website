@@ -1,6 +1,8 @@
 import React from 'react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
+import HeroImage from '../components/HeroImage';
+import HeroSlider from '../components/HeroSlider';
 import {auth} from  '../firebase';
 import './dashboard.css';
  export default function Dashboard() {
@@ -11,8 +13,8 @@ import './dashboard.css';
     return (
         <div>
              < Header />
-               
-           <h1>this is Dashboard Route</h1> 
+             <HeroImage />
+
             <Footer />
         </div>
     )
