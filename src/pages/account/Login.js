@@ -64,18 +64,27 @@ const signInWithGoogle = async () => {
     }
   };
 
+  
+  const storeuser = ()=> {
+      var userId = firebase.auth().currentUser?.uid
+    firebase.database().ref('users/' + userId).once("value", snap => {
+        localStorage.setItem("user_course", JSON.stringify(snap.val()))
+    })
+   
+  }
 
  const loginNow= async (e)=>{ e.preventDefault();
      try{firebase.auth().signInWithEmailAndPassword(email, password)
   .then((result) => {
     // Signed in
-    var user = result.user; console.log(user);
+    var user = result.user;
+    storeuser();
     localStorage.setItem("user", JSON.stringify(user))
    const data = JSON.parse(localStorage.getItem("user"))
         dispatch(setActiveUser({
         userName: data.name,
         userEmail: data.email,
-      
+        
     }))
     history.goBack();
     // 

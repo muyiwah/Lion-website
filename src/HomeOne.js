@@ -47,7 +47,7 @@ function HomeOne() {
 //     fetchBlogs();
 //   }, [])
  
-if (posts){console.log("home",posts)}
+// if (posts){console.log("home",posts)}
 
 
         return (

@@ -25,9 +25,11 @@ function CourseDetails() {
     //   } = match;
     const [user, setUser] = useState('');
     const [isPaid, setIsPaid] = useState(false);
+    const [checkCourses, setCheckCourses] = useState('');
     //   
     const {id} =useParams()
     // console.log("this is id", id)
+    const [myuser, setMyuser]=useState([])
     const [posts, setPosts]=useState([])
     useEffect(() => {
         db.collection('courses6')
@@ -39,6 +41,14 @@ function CourseDetails() {
             );
         });
     }, []); 
+
+    // var userId = firebase.auth().currentUser?.uid
+    // useEffect(() => {
+
+    //     firebase.database().ref('users/' + userId).once("value", snap => {
+    //         console.log(snap.val())
+    //     })
+    // }, []); 
 
     const show = posts.filter(post=> post.courseTitle==id)[0]
     // console.log("show",show); 
@@ -71,9 +81,22 @@ function CourseDetails() {
                 setUser(null)
             }
     }, []);
-    
-    
-      
+
+
+    useEffect(() => {
+        const paidCourse = JSON.parse(localStorage.getItem("user_course"));
+        setCheckCourses(paidCourse)
+        // setCheckCourses(paidCourse.course_title)
+        //     if(paidCourse.course_title){
+        //         setCheckCourses(paidCourse.course_title)
+        //     }
+        //     else{
+        //         setCheckCourses(null)
+        //     }
+    }, []);
+
+    console.log(checkCourses.My_course?.course_title)
+
       
    const config = {
     public_key: 'FLWPUBK_TEST-7b521e071b80d99d62e26ac695a0dbca-X',
@@ -109,7 +132,7 @@ function CourseDetails() {
                My_course: {
                 course_title: show.courseTitle,
                 course_price: show.price,
-                paid: isPaid
+                paid: true
                 }
             }); 
               console.log('i have done it')
@@ -128,12 +151,12 @@ function CourseDetails() {
 
 
     function EnrollButton() {
-        if (user && isPaid === false){
+        if (user && checkCourses.My_course?.course_title !== show?.courseTitle){
             return <button type="button" className="enroll-btn" ><FlutterWaveButton {...fwConfig} /> </button>
             
         }
 
-        else if(user && isPaid === true){
+        else if(user && checkCourses.My_course?.course_title === show?.courseTitle ){
             return <button type="button" className="enroll-btn" >Already Enrolled</button>
         }
 
