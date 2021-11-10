@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Styles } from "./styles/mobileMenu.js";
@@ -7,8 +7,10 @@ import { auth } from '../../firebase.js';
 import { selectUserEmail, setUserLogout } from '../../features/userSlice.js';
 
 function MobileMenu() {
+    const [user, setUser] = useState('');
     useEffect(() => {
         // Mobile Menu
+
         const hmBtn = document.getElementById("mb-sidebar-btn");
 
         if (hmBtn) {
@@ -53,7 +55,6 @@ function MobileMenu() {
         });
     });
 
-    const userEmail = useSelector(selectUserEmail);
     const dispatch = useDispatch();
     const signOut = ()=>{
         auth.signOut()
@@ -64,13 +65,31 @@ function MobileMenu() {
         .catch((err)=> console.log(err.message))
     }
 
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged
+        (userAuth => {
+            const user = {
+                uid: userAuth?.uid,
+                email: userAuth?.email
+            }
+            if(userAuth){
+                setUser(userAuth)
+            }
+            else{
+                setUser(null)
+            }
+        })
+        return unsubscribe;
+      }, []);
+
+
     return (
 
 
       
         
         <Styles>
-      { userEmail ?     
+      { user ?     
             <section className="mobile-menu-area">
                 <Container>
                     <Row>

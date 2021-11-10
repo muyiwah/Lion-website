@@ -16,6 +16,7 @@ import {setActiveUser, selectUserName, selectUserEmail, selectLastName, selectFi
 
 function Login() {
 
+    const [user, setUser] = useState('')
     
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -63,19 +64,6 @@ const signInWithGoogle = async () => {
     }
   };
 
-//   const loginNow = async () => {
-//     try {
-//       const user = await signInWithEmailAndPassword(
-//         auth,
-//         email,
-//         password
-//       );
-      
-//       console.log(user);
-//     } catch (error) {
-//       console.log(error.message);
-//     }
-//   };
 
  const loginNow= async (e)=>{ e.preventDefault();
      try{firebase.auth().signInWithEmailAndPassword(email, password)
@@ -89,15 +77,30 @@ const signInWithGoogle = async () => {
         userEmail: data.email,
       
     }))
-    
-    history.push("/");
+    history.goBack();
     // 
   })}
   catch(error) {
     var errorCode = error.code;
     var errorMessage = error.message;
-    // if (user){history.push('/');}
   }}
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged
+    (userAuth => {
+        const user = {
+            uid: userAuth?.uid,
+            email: userAuth?.email
+        }
+        if(user){
+            setUser(user)
+        }
+        else{
+            setUser(null)
+        }
+    })
+    return unsubscribe;
+  }, []);
 
     
     return (

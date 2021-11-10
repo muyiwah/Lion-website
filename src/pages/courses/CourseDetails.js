@@ -7,18 +7,27 @@ import CourseTag from './components/CourseTag';
 import { Styles } from './styles/course.js';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
-import {db} from '../../firebase'
-import {useParams} from 'react-router-dom'
-
+import {auth, db} from '../../firebase'
+import {useParams, useHistory} from 'react-router-dom'
+import { FlutterWaveButton, closePaymentModal } from 'flutterwave-react-v3';
+import './coursedetail.css';
+import firebase from 'firebase';
 
 function CourseDetails() {
+
+    const history = useHistory();
+
+    const login = () => {
+        history.push('/login')
+    };
     // const {
     //     params: { personId },
     //   } = match;
-
+    const [user, setUser] = useState('');
+    const [isPaid, setIsPaid] = useState(false);
     //   
     const {id} =useParams()
-    console.log("this is id", id)
+    // console.log("this is id", id)
     const [posts, setPosts]=useState([])
     useEffect(() => {
         db.collection('courses6')
@@ -27,13 +36,12 @@ function CourseDetails() {
                 snapshot.docs.map((doc) => {
                     return doc.data();
                 })
-            );if(posts) console.log("Course Details=",posts);
+            );
         });
     }, []); 
 
     const show = posts.filter(post=> post.courseTitle==id)[0]
-    console.log("show",show); 
-    if (show!== []) {console.log(show);}
+    // console.log("show",show); 
     useEffect(() => {
         const courseButton = document.querySelectorAll(".course-button");
         courseButton.forEach(button => {
@@ -52,6 +60,90 @@ function CourseDetails() {
         });
     });
 
+
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        setUser(user)
+            if(user){
+                setUser(user)
+            }
+            else{
+                setUser(null)
+            }
+    }, []);
+    
+    
+      
+      
+   const config = {
+    public_key: 'FLWPUBK_TEST-7b521e071b80d99d62e26ac695a0dbca-X',
+    tx_ref: Date.now(),
+    amount: 10,
+    currency: 'NGN',
+    payment_options: 'card,mobilemoney,ussd',
+    customer: {
+      email: user?.email,
+      phonenumber: '08101725687',
+      name: user?.DisplayName,
+    },
+    customizations: {
+      title: 'LionDynastyIntl',
+      description: 'Payment for course',
+      logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+    },
+  };
+
+  const fwConfig = {
+    ...config,
+    text: 'Enroll for Course',
+    callback: (response) => {
+    //    console.log(response.status);
+       if(response.status === 'successful') {
+
+        var userId = firebase.auth().currentUser.uid
+        setIsPaid(true)
+        firebase.database()
+            .ref('users/' + userId)
+            .set(
+            {
+               My_course: {
+                course_title: show.courseTitle,
+                course_price: show.price,
+                paid: isPaid
+                }
+            }); 
+              console.log('i have done it')
+       } 
+
+       else{
+           console.log('payment not successful')
+       }
+
+
+      closePaymentModal() // this will close the modal programmatically
+    },
+    onClose: () => {},
+  };
+
+
+
+    function EnrollButton() {
+        if (user && isPaid === false){
+            return <button type="button" className="enroll-btn" ><FlutterWaveButton {...fwConfig} /> </button>
+            
+        }
+
+        else if(user && isPaid === true){
+            return <button type="button" className="enroll-btn" >Already Enrolled</button>
+        }
+
+        else {
+            return  <button type="button" className="enroll-btn" onClick={login}>Login to Enroll</button>
+        }
+
+    };
+
+        
     return (
         <div className="main-wrapper course-details-page" >
 
@@ -114,9 +206,7 @@ function CourseDetails() {
                                                 <Nav.Item>
                                                     <Nav.Link eventKey="curriculum">Curriculum</Nav.Link>
                                                 </Nav.Item>
-                                                {/* <Nav.Item>
-                                                    <Nav.Link eventKey="instructor">Instructors</Nav.Link>
-                                                </Nav.Item> */}
+                                              
                                                 <Nav.Item>
                                                     <Nav.Link eventKey="review">Reviews</Nav.Link>
                                                 </Nav.Item>
@@ -130,21 +220,12 @@ function CourseDetails() {
                                                     <div className="course-feature">
                                                         <h5>Course Feature</h5>
                                                         <p>{show && show.courseFeatureFb}</p>
-                                                        {/* <ul className="list-unstyled">
-                                                            <li><i className="las la-arrow-right"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum amet quo eius saepe et quis necessitatibus hic natus facere excepturi aliquid dolor ducimus.</li>
-                                                            <li><i className="las la-arrow-right"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum amet quo eius saepe et quis necessitatibus hic natus facere excepturi aliquid .</li>
-                                                            <li><i className="las la-arrow-right"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum amet quo eius saepe et quis necessitatibus hic natus facere excepturi.</li>
-                                                        </ul> */}
+                                                       
                                                     </div>
                                                     <div className="course-learn">
                                                         <h5>Learning Outcome</h5>
                                                         <p>{show && show.learningOutcomeFb}</p>
-                                                        {/* <ul className="list-unstyled">
-                                                            <li><i className="fa fa-check"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum amet quo eius saepe et quis necessitatibus hic natus facere Quae impedit eligendi perspiciatis animi maxime ab minus corporis omnis similique excepturi.</li>
-                                                            <li><i className="fa fa-check"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum amet quo eius saepe et quis necessitatibus hic natus facere Quae impedit eligendi perspiciatis animi maxime ab minus corporis omnis similique excepturi.</li>
-                                                            <li><i className="fa fa-check"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum amet quo eius saepe et quis necessitatibus hic natus facere Quae impedit eligendi perspiciatis animi maxime ab minus corporis omnis similique excepturi.</li>
-                                                            <li><i className="fa fa-check"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum amet quo eius saepe et quis necessitatibus hic natus facere Quae impedit eligendi perspiciatis animi maxime ab minus corporis omnis similique excepturi.</li> */}
-                                                        {/* </ul> */}
+                                                       
                                                     </div>
                                                     <div className="course-share">
                                                         <h5>Share This Course</h5>
@@ -162,308 +243,37 @@ function CourseDetails() {
                                                         <h5>Course Curriculum</h5>
                                                         <p>{show && show.curriculumFb}</p>
                                                     </div>
-                                                    {/* <div className="course-element">
-                                                        <h5>Course Content</h5>
-                                                        <div className="course-item">
-                                                            <button className="course-button active">Part 1:  <span>04 Lectures</span></button>
-                                                            <div className="course-content show">
-                                                                <ul className="list-unstyled">
-                                                                    <li>
-                                                                        <span className="play-icon"><i className="las la-play"></i> Lecture: 01</span>
-                                                                        <span className="lecture-title"></span>
-                                                                        <span className="lecture-duration">00:00</span>
-                                                                    </li>
-                                                                    <li>
-                                                                        <span className="play-icon"><i className="las la-play"></i> Lecture: 02</span>
-                                                                        <span className="lecture-title"></span>
-                                                                        <span className="lecture-duration">00:00</span>
-                                                                    </li>
-                                                                    <li>
-                                                                        <span className="play-icon"><i className="las la-play"></i> Lecture: 03</span>
-                                                                        <span className="lecture-title"></span>
-                                                                        <span className="lecture-duration">00:00</span>
-                                                                    </li>
-                                                                    <li>
-                                                                        <span className="play-icon"><i className="las la-play"></i> Lecture: 04</span>
-                                                                        <span className="lecture-title"></span>
-                                                                        <span className="lecture-duration">00:00</span>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <div className="course-item">
-                                                            <button className="course-button active">Part 2: <span>03 Lectures </span></button>
-                                                            <div className="course-content show">
-                                                                <ul className="list-unstyled">
-                                                                    <li>
-                                                                        <span className="play-icon"><i className="las la-play"></i> Lecture: 01</span>
-                                                                        <span className="lecture-title"></span>
-                                                                        <span className="lecture-duration">00:00</span>
-                                                                    </li>
-                                                                    <li>
-                                                                        <span className="play-icon"><i className="las la-play"></i> Lecture: 02</span>
-                                                                        <span className="lecture-title"></span>
-                                                                        <span className="lecture-duration">00:00</span>
-                                                                    </li>
-                                                                    <li>
-                                                                        <span className="play-icon"><i className="las la-play"></i> Lecture: 03</span>
-                                                                        <span className="lecture-title"></span>
-                                                                        <span className="lecture-duration">00:00</span>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <div className="course-item">
-                                                            <button className="course-button active">Part 3:  <span>04 Lectures </span></button>
-                                                            <div className="course-content show">
-                                                                <ul className="list-unstyled">
-                                                                    <li>
-                                                                        <span className="play-icon"><i className="las la-play"></i> Lecture: 01</span>
-                                                                        <span className="lecture-title"></span>
-                                                                        <span className="lecture-duration">00:00</span>
-                                                                    </li>
-                                                                    <li>
-                                                                        <span className="play-icon"><i className="las la-play"></i> Lecture: 02</span>
-                                                                        <span className="lecture-title"></span>
-                                                                        <span className="lecture-duration">00:00</span>
-                                                                    </li>
-                                                                    <li>
-                                                                        <span className="play-icon"><i className="las la-play"></i> Lecture: 03</span>
-                                                                        <span className="lecture-title"></span>
-                                                                        <span className="lecture-duration">00:00</span>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div> */}
+                                                   
                                                 </Tab.Pane>
-                                                {/* <Tab.Pane eventKey="instructor" className="instructor-tab">
-                                                    <h5>Course Instructors</h5>
-                                                    <div className="instructor-item">
-                                                        <Row>
-                                                            <Col md="4">
-                                                                <div className="instructor-img">
-                                                                    <img src={process.env.PUBLIC_URL + `/assets/images/instructor-1.jpg`} alt="" className="img-fluid" />
-                                                                </div>
-                                                            </Col>
-                                                            <Col md="8">
-                                                                <div className="instructor-content">
-                                                                    <div className="instructor-box">
-                                                                        <div className="top-content d-flex justify-content-between">
-                                                                            <div className="instructor-name">
-                                                                                <h6>{show && show.authorName}</h6>
-                                                                                <p>Senior Instructor</p>
-                                                                            </div>
-                                                                            <div className="instructor-social">
-                                                                                <ul className="social list-unstyled list-inline">
-                                                                                    <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-facebook-f"></i></a></li>
-                                                                                    <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-twitter"></i></a></li>
-                                                                                    <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-linkedin-in"></i></a></li>
-                                                                                    <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-youtube"></i></a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="instructor-desk">
-                                                                            <p></p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </Col>
-                                                        </Row>
-                                                    </div>
-                                                    <div className="instructor-item">
-                                                        <Row>
-                                                            <Col md="4">
-                                                                <div className="instructor-img">
-                                                                    <img src={process.env.PUBLIC_URL + `/assets/images/instructor-2.jpg`} alt="" className="img-fluid" />
-                                                                </div>
-                                                            </Col>
-                                                            <Col md="8">
-                                                                <div className="instructor-content">
-                                                                    <div className="instructor-box">
-                                                                        <div className="top-content d-flex justify-content-between">
-                                                                            <div className="instructor-name">
-                                                                                <h6></h6>
-                                                                                <p>Senior Lecturer</p>
-                                                                            </div>
-                                                                            <div className="instructor-social">
-                                                                                <ul className="social list-unstyled list-inline">
-                                                                                    <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-facebook-f"></i></a></li>
-                                                                                    <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-twitter"></i></a></li>
-                                                                                    <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-linkedin-in"></i></a></li>
-                                                                                    <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-youtube"></i></a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="instructor-desk">
-                                                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae perferendis delectus voluptate reiciendis animi nisi nemo tenetur sequi cum laudantium sit totam libero quasi ducimus accusantium numquam eaque.</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </Col>
-                                                        </Row>
-                                                    </div>
-                                                    <div className="instructor-item">
-                                                        <Row>
-                                                            <Col md="4">
-                                                                <div className="instructor-img">
-                                                                    <img src={process.env.PUBLIC_URL + `/assets/images/instructor-3.jpg`} alt="" className="img-fluid" />
-                                                                </div>
-                                                            </Col>
-                                                            <Col md="8">
-                                                                <div className="instructor-content">
-                                                                    <div className="instructor-box">
-                                                                        <div className="top-content d-flex justify-content-between">
-                                                                            <div className="instructor-name">
-                                                                                <h6>David Show</h6>
-                                                                                <p>Senior Lecturer</p>
-                                                                            </div>
-                                                                            <div className="instructor-social">
-                                                                                <ul className="social list-unstyled list-inline">
-                                                                                    <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-facebook-f"></i></a></li>
-                                                                                    <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-twitter"></i></a></li>
-                                                                                    <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-linkedin-in"></i></a></li>
-                                                                                    <li className="list-inline-item"><a href={process.env.PUBLIC_URL + "/"}><i className="fab fa-youtube"></i></a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="instructor-desk">
-                                                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae perferendis delectus voluptate reiciendis animi nisi nemo tenetur sequi cum laudantium sit totam libero quasi ducimus accusantium numquam eaque.</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </Col>
-                                                        </Row>
-                                                    </div>
-                                                </Tab.Pane> */}
-                                                {/* <Tab.Pane eventKey="review" className="review-tab">
-                                                    <Row>
-                                                        <Col md="12">
-                                                            <div className="review-comments">
-                                                                <h5>Course Reviews</h5>
-                                                                <div className="comment-box d-flex">
-                                                                    <div className="comment-image">
-                                                                        <img src={process.env.PUBLIC_URL + `/assets/images/testimonial-2.jpg`} alt="" />
-                                                                    </div>
-                                                                    <div className="comment-content">
-                                                                        <div className="content-title d-flex justify-content-between">
-                                                                            <div className="comment-writer">
-                                                                                <h6>Mark Shadow</h6>
-                                                                                <p>Mar 26, 2020 | 06:30pm</p>
-                                                                                <ul className="list-unstyled list-inline">
-                                                                                    <li className="list-inline-item"><i className="las la-star"></i></li>
-                                                                                    <li className="list-inline-item"><i className="las la-star"></i></li>
-                                                                                    <li className="list-inline-item"><i className="las la-star"></i></li>
-                                                                                    <li className="list-inline-item"><i className="las la-star"></i></li>
-                                                                                    <li className="list-inline-item"><i className="las la-star-half-alt"></i></li>
-                                                                                    <li className="list-inline-item">(4.5)</li>
-                                                                                </ul>
-                                                                            </div>
-                                                                            <div className="reply-btn">
-                                                                                <button type="button"><i className="las la-reply-all"></i> Reply</button>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="comment-desc">
-                                                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto laborum quas placeat perspiciatis est, nisi expedita consectetur sit minus illum laudantium nostrum dolore odit asperiores quisquam ad enim iusto laborum quas placeat perspiciatis saepe.</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="comment-box d-flex">
-                                                                    <div className="comment-image">
-                                                                        <img src={process.env.PUBLIC_URL + `/assets/images/testimonial-1.jpg`} alt="" />
-                                                                    </div>
-                                                                    <div className="comment-content">
-                                                                        <div className="content-title d-flex justify-content-between">
-                                                                            <div className="comment-writer">
-                                                                                <h6>Katrin Kay</h6>
-                                                                                <p>Mar 26, 2020 | 06:30pm</p>
-                                                                                <ul className="list-unstyled list-inline">
-                                                                                    <li className="list-inline-item"><i className="las la-star"></i></li>
-                                                                                    <li className="list-inline-item"><i className="las la-star"></i></li>
-                                                                                    <li className="list-inline-item"><i className="las la-star"></i></li>
-                                                                                    <li className="list-inline-item"><i className="las la-star"></i></li>
-                                                                                    <li className="list-inline-item"><i className="las la-star-half-alt"></i></li>
-                                                                                    <li className="list-inline-item">(4.5)</li>
-                                                                                </ul>
-                                                                            </div>
-                                                                            <div className="reply-btn">
-                                                                                <button type="button"><i className="las la-reply-all"></i> Reply</button>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="comment-desc">
-                                                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto laborum quas placeat perspiciatis est, nisi expedita consectetur sit minus illum laudantium nostrum dolore odit asperiores quisquam ad enim iusto laborum quas placeat perspiciatis saepe.</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="comment-box d-flex">
-                                                                    <div className="comment-image">
-                                                                        <img src={process.env.PUBLIC_URL + `/assets/images/testimonial-2.jpg`} alt="" />
-                                                                    </div>
-                                                                    <div className="comment-content">
-                                                                        <div className="content-title d-flex justify-content-between">
-                                                                            <div className="comment-writer">
-                                                                                <h6>David Show</h6>
-                                                                                <p>Mar 26, 2020 | 06:30pm</p>
-                                                                                <ul className="list-unstyled list-inline">
-                                                                                    <li className="list-inline-item"><i className="las la-star"></i></li>
-                                                                                    <li className="list-inline-item"><i className="las la-star"></i></li>
-                                                                                    <li className="list-inline-item"><i className="las la-star"></i></li>
-                                                                                    <li className="list-inline-item"><i className="las la-star"></i></li>
-                                                                                    <li className="list-inline-item"><i className="las la-star-half-alt"></i></li>
-                                                                                    <li className="list-inline-item">(4.5)</li>
-                                                                                </ul>
-                                                                            </div>
-                                                                            <div className="reply-btn">
-                                                                                <button type="button"><i className="las la-reply-all"></i> Reply</button>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="comment-desc">
-                                                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto laborum quas placeat perspiciatis est, nisi expedita consectetur sit minus illum laudantium nostrum dolore odit asperiores quisquam ad enim iusto laborum quas placeat perspiciatis saepe.</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="review-form">
-                                                                <h5>Submit Review</h5>
-                                                                <ReviewForm />
-                                                            </div>
-                                                        </Col>
-                                                    </Row>
-                                                </Tab.Pane> */}
+                                                
                                             </Tab.Content>
                                         </Tab.Container>
                                     </div>
                                 </div>
                             </Col>
-                            {/* <Col lg="3" md="4" sm="12">
+                            <Col lg="3" md="4" sm="12">
                                 <div className="single-details-sidbar">
                                     <Row>
                                         <Col md="12">
                                             <div className="course-details-feature">
                                                 <h5 className="title">Course Details</h5>
                                                 <ul className="list-unstyled feature-list">
-                                                    <li><i className="las la-calendar"></i> Start Date: <span>Aug 21, 2020</span></li>
-                                                    <li><i className="las la-clock"></i> Duration: <span>1 Year</span></li>
+                                                    <li><i className="las la-calendar"></i> Start Date: <span>Dec 21, 2021</span></li>
+                                                    <li><i className="las la-clock"></i> Duration: <span> One Time Offer</span></li>
                                                     <li><i className="las la-globe"></i> Language: <span>English</span></li>
-                                                    <li><i className="las la-sort-amount-up"></i> Skill Level: <span>Beginner</span></li>
-                                                    <li><i className="las la-graduation-cap"></i> Subject: <span>Web</span></li>
                                                     <li><i className="las la-book"></i> Lectures: <span>51</span></li>
-                                                    <li><i className="las la-bookmark"></i> Enrolled: <span>236</span></li>
+                                                    <li><i className="las la-bookmark"></i> Enrolled: <span>23</span></li>
                                                     <li><i className="las la-certificate"></i> Certification: <span>Yes</span></li>
                                                 </ul>
-                                                <button type="button" className="enroll-btn">Enroll Course</button>
+                                               <EnrollButton />
                                             </div>
                                         </Col>
-                                        <Col md="12">
-                                            <PopularCourse />
-                                        </Col>
-                                        <Col md="12">
-                                            <CourseTag />
-                                        </Col>
+                                      
                                     </Row>
+                                 
                                 </div>
 
-                            </Col> */}
+                            </Col>
                         </Row>
                     </Container>
                 </section>
