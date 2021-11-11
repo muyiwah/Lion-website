@@ -1,22 +1,73 @@
 {
-    "secTitle": "Lets See What Our Valuable Students Think About Us. Their Testimonials.",
+    "secTitle": "Forex Tips.",
     "backgroundImage": "graphics2.jpg",
     "dataList": [
         {
             "id": "1",
-            "testimonialTitle": "It is great to be a part of this community.",
-            "testimonialDesc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitation maior. Placeat repellat, et totam optio. Sequi qui laborum ratione cumque tempo totam voluptatum.",
-            "authorImg": "testimonial-1.jpg",
-            "authorName": "David Show",
-            "authorTitle": "Developer"
+            "testimonialDesc": "assets/images/forex-tip.jpeg"
+            
+            
         },
         {
             "id": "2",
-            "testimonialTitle": "It is great to be a part of this community.",
-            "testimonialDesc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitation maior. Placeat repellat, et totam optio. Sequi qui laborum ratione cumque tempo totam voluptatum.",
-            "authorImg": "testimonial-2.jpg",
-            "authorName": "Tom Parker",
-            "authorTitle": "Programmer"
+            "testimonialDesc": "assets/images/forex-tip (2).jpeg"
+            
+            
+            
+        },
+        {
+            "id": "3",
+            "testimonialDesc": "assets/images/forex-tip (3).jpeg"
+            
+           
+        },
+        {
+            "id": "4",
+            "testimonialDesc": "assets/images/forex-tip (4).jpeg"
+            
+           
+        }
+        ,
+        {
+            "id": "5",
+            "testimonialDesc": "assets/images/forex-tip (5).jpeg"
+            
+           
+        }
+        ,
+        {
+            "id": "6",
+            "testimonialDesc": "assets/images/forex-tip (6).jpeg"
+            
+           
+        }
+        ,
+        {
+            "id": "7",
+            "testimonialDesc": "assets/images/forex-tip (7).jpeg"
+            
+           
+        }
+        ,
+        {
+            "id": "8",
+            "testimonialDesc": "assets/images/forex-tip (8).jpeg"
+            
+           
+        }
+        ,
+        {
+            "id": "9",
+            "testimonialDesc": "assets/images/forex-tip (9).jpeg"
+            
+           
+        }
+        ,
+        {
+            "id": "10",
+            "testimonialDesc": "assets/images/forex-tip (10).jpeg"
+            
+           
         }
     ]
 }

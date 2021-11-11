@@ -132,6 +132,8 @@ export const Styles = styled.div`
                         color: ${colors.green};
                     }
 
+                  
+
                     @media(max-width: 575px) {
                         margin-bottom: 15px;
                         font-size: 20px;

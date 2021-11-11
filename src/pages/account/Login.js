@@ -16,6 +16,7 @@ import {setActiveUser, selectUserName, selectUserEmail, selectLastName, selectFi
 
 function Login() {
 
+    const [user, setUser] = useState('')
     
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -63,41 +64,52 @@ const signInWithGoogle = async () => {
     }
   };
 
-//   const loginNow = async () => {
-//     try {
-//       const user = await signInWithEmailAndPassword(
-//         auth,
-//         email,
-//         password
-//       );
-      
-//       console.log(user);
-//     } catch (error) {
-//       console.log(error.message);
-//     }
-//   };
+  
+  const storeuser = ()=> {
+      var userId = firebase.auth().currentUser?.uid
+    firebase.database().ref('users/' + userId).once("value", snap => {
+        localStorage.setItem("user_course", JSON.stringify(snap.val()))
+    })
+   
+  }
 
  const loginNow= async (e)=>{ e.preventDefault();
      try{firebase.auth().signInWithEmailAndPassword(email, password)
   .then((result) => {
     // Signed in
-    var user = result.user; console.log(user);
+    var user = result.user;
+    storeuser();
     localStorage.setItem("user", JSON.stringify(user))
    const data = JSON.parse(localStorage.getItem("user"))
         dispatch(setActiveUser({
         userName: data.name,
         userEmail: data.email,
-      
+        
     }))
-    
-    history.push("/");
+    history.goBack();
     // 
   })}
   catch(error) {
     var errorCode = error.code;
     var errorMessage = error.message;
-    // if (user){history.push('/');}
   }}
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged
+    (userAuth => {
+        const user = {
+            uid: userAuth?.uid,
+            email: userAuth?.email
+        }
+        if(user){
+            setUser(user)
+        }
+        else{
+            setUser(null)
+        }
+    })
+    return unsubscribe;
+  }, []);
 
     
     return (

@@ -14,11 +14,11 @@ function CourseFilter() {
                 snapshot.docs.map((doc) => {
                     return doc.data();
                 })
-            );console.log("postfilters=",posts);
+            );
         });
     }, []); 
-    // var newPost=JSON.stringify(posts); 
-    // console.log("newpost", newPost);
+  
+    
     return (
         <Styles>
             {/* Course Area */}
