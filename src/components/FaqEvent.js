@@ -50,6 +50,15 @@ function FaqEvent() {
                                         ))
                                     }
                                 </div>
+                                <div className="sec-title py-5">
+                                    <h4>Our most  <span>trusted broker</span></h4>
+                                </div>
+                                <div className="sec-title">
+                                    <a className="viewall-btn" href="https://www.hotforex.com/?refid=342643" target='_blank' style={{color: 'black',
+                        background: 'gold', padding: '15px 35px', borderRadius: '10px', fontSize: '18px', fontWeight: 'bold'
+                    }}> Hot Forex </a>
+                                </div>
+
                             </div>
                         </Col>
                     </Row>

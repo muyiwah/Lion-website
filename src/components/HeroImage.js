@@ -31,10 +31,7 @@ class HeroImage extends Component {
                                         <div className="hero-box text-center">
                                             <h1>{Datas.heroTitle}</h1>
                                             <p>{Datas.heroSubtitle}</p>
-                                            <div className="video-player">
-                                                <ModalVideo channel='youtube' isOpen={this.state.isOpen} videoId='uXFUl0KcIkA' onClose={() => this.setState({ isOpen: false })} />
-                                                <button onClick={this.openModal} className="play-button"><i className="las la-play"></i></button>
-                                            </div>
+                                          
                                         </div>
                                     </Col>
                                 </Row>

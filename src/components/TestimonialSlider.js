@@ -7,7 +7,7 @@ import { Styles } from "./styles/testimonialSlider.js";
 class TestimonialSlider extends Component {
     render() {
         const settings = {
-            slidesPerView: 2,
+            slidesPerView: 3,
             loop: true,
             speed: 1000,
             autoplay: {
@@ -52,15 +52,10 @@ class TestimonialSlider extends Component {
                                     {
                                         Datas.dataList.map((data, i) => (
                                             <div className="slider-item" key={i}>
-                                                <div className="desc">
-                                                    <h5>{data.testimonialTitle}</h5>
-                                                    <p>{data.testimonialDesc}</p>
-                                                </div>
-                                                <div className="writer">
-                                                    <img src={process.env.PUBLIC_URL + `/assets/images/${data.authorImg}`} className="slider-image" alt={data.authorImg} />
-                                                    <h6>{data.authorName}</h6>
-                                                    <p>{data.authorTitle}</p>
-                                                </div>
+                                                {/* <div className="desc">
+                                                    <h5>{data.testimonialTitle}</h5> */}
+                                                    <img src={data.testimonialDesc}  alt=""  width="400px"/>
+                                                {/* </div> */}
                                             </div>
                                         ))
                                     }

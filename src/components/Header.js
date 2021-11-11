@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import Search from './common/Search';
@@ -14,7 +14,7 @@ const Header = ()=> {
 
     // const user = JSON.parse(localStorage.getItem("user"));
     // const userEmail =  user.email ? user.email : null ;
-
+    const [user, setUser] = useState('')
     const userEmail = useSelector(selectUserEmail);
     const dispatch = useDispatch();
     const signOut = ()=>{
@@ -22,14 +22,34 @@ const Header = ()=> {
         .then(()=>{
            dispatch( setUserLogout() ) 
             localStorage.clear();
+            setUser('');
+            // window.location.reload();
         })
         .catch((err)=> console.log(err.message))
     }
-    
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged
+        (userAuth => {
+            const user = {
+                uid: userAuth?.uid,
+                email: userAuth?.email
+            }
+            if(userAuth){
+                setUser(userAuth)
+            }
+            else{
+                setUser(null)
+            }
+        })
+        return unsubscribe;
+      }, []);
+
+
+    //   console.log(user)
         return (
             <Styles>
                 {/* Topbar */}
-               { userEmail ? 
+               { user ? 
                  <section className="top-bar"> 
                     <Container>
                         <Row>
@@ -88,7 +108,7 @@ const Header = ()=> {
 }
 
                 {/* Logo Area */}
-               { userEmail ?
+               { user ?
                 <section className="logo-area">
                     <Container>
                         <Row>
@@ -176,19 +196,7 @@ const Header = ()=> {
                                                 <Link className="nav-link dropdown-toggle" to={process.env.PUBLIC_URL + "/"} data-toggle="dropdown">Home</Link>
                                                
                                             </li>
-                                            {/* <li className="nav-item dropdown">
-                                                <Link className="nav-link dropdown-toggle" to={process.env.PUBLIC_URL + "/"} data-toggle="dropdown">Pages <i className="las la-angle-down"></i></Link>
-                                                <ul className="dropdown list-unstyled">
-                                                    <li className="nav-item"><Link className="nav-link" to={process.env.PUBLIC_URL + "/about"}>About Us</Link></li>
-                                                    <li className="nav-item"><Link className="nav-link" to={process.env.PUBLIC_URL + "/gallery"}>Gallery</Link></li>
-                                                    <li className="nav-item"><Link className="nav-link" to={process.env.PUBLIC_URL + "/login"}>Log In</Link></li>
-                                                    <li className="nav-item"><Link className="nav-link" to={process.env.PUBLIC_URL + "/registration"}>Registration</Link></li>
-                                                    <li className="nav-item"><Link className="nav-link" to={process.env.PUBLIC_URL + "/contact"}>Contact</Link></li>
-                                                    <li className="nav-item"><Link className="nav-link" to={process.env.PUBLIC_URL + "/faq"}>Faq</Link></li>
-                                                    <li className="nav-item"><Link className="nav-link" to={process.env.PUBLIC_URL + "/404"}>404</Link></li>
-                                                    <li className="nav-item"><Link className="nav-link" to={process.env.PUBLIC_URL + "/coming-soon"}>Coming Soon</Link></li>
-                                                </ul>
-                                            </li> */}
+                                          
                                             <li className="nav-item dropdown">
                                                 <Link className="nav-link dropdown-toggle" to={process.env.PUBLIC_URL + "/course-grid"} data-toggle="dropdown">Courses </Link>
                                                 
@@ -202,7 +210,7 @@ const Header = ()=> {
                                                 
                                             </li>
                                             <li className="nav-item dropdown">
-                                                <Link className="nav-link dropdown-toggle" to={process.env.PUBLIC_URL + "/"} data-toggle="dropdown"></Link>
+                                                <Link className="nav-link dropdown-toggle" to={process.env.PUBLIC_URL + "/"} data-toggle="dropdown">Forum</Link>
                                                 
                                             </li>
                                             
