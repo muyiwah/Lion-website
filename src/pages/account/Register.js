@@ -31,22 +31,22 @@ var name2 = ""
     //     Lastname: lastName,
     //     Username: userName,
     // } 
-  
-    const setUserData = (user)=> {
-        db.collection("users").doc().set({
-            Firstname:firstName,
-            Lastname: lastName,
-            Username: userName,
-            Email: email,
+    // const uid = result.user?.email
+    // const setUserData = (user)=> {
+    //     db.collection("users").doc(uid).set({
+    //         Firstname:firstName,
+    //         Lastname: lastName,
+    //         Username: userName,
+    //         Email: email,
             // Emailverified:result.user.emailVerified,
-            uid:user.uid
+            // uid:uid
             
-        },{
-            merge: true
-        }
-        )
+        // },{
+        //     merge: true
+        // }
+    //     )
         
-    }
+    // }
     const d= new Date().toISOString().slice(0, 10);
     const registerWithEmailAndPassword = (e) => {e.preventDefault();
       auth.createUserWithEmailAndPassword(email, password)
@@ -56,10 +56,11 @@ var name2 = ""
                   handleCodeInApp:true,
                   url:"http://localhost:3000/"
               })
-               db.collection("users").doc().set({
+              const uid = auth.currentUser.uid
+               db.collection("users").doc(uid).set({
             Firstname:firstName,
             Lastname: lastName,
-            Username: userName,
+            displayName: userName,
             Email: email,
             Emailverified:result.user.emailVerified,
             uid:result.user.uid,
@@ -74,13 +75,13 @@ var name2 = ""
               setUsername("")
               setEmail("")
               setPassword("")
-            history.push("/login") 
+            history.push("/") 
           }
           else {
               const payload= {
                   ...result.user
               }
-           setUserData(payload)
+        //    setUserData(payload)
           }
         })
          
