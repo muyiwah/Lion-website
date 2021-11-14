@@ -70,7 +70,10 @@ function CourseDetails() {
         });
     });
 
+// let docRef = db.collection("users")
+//             .where("uid", isEqualTo: firebase.auth().currentUser?.uid ?? "")
 
+// console.log(db.collection(`users/${user.uid}`));
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user"));
         setUser(user)
@@ -84,19 +87,24 @@ function CourseDetails() {
 
 
     useEffect(() => {
-        const paidCourse = JSON.parse(localStorage.getItem("user_course"));
-        setCheckCourses(paidCourse)
-        // setCheckCourses(paidCourse.course_title)
-        //     if(paidCourse.course_title){
-        //         setCheckCourses(paidCourse.course_title)
-        //     }
-        //     else{
-        //         setCheckCourses(null)
-        //     }
-    }, []);
+        db.collection("users").doc(userId).collection("myTest").onSnapshot((snapshot) => {
+                         snapshot.docs.map((doc) => {
+                    console.log( doc.data());
+                    
+                })
+            
+        });
+        setCheckCourses()
+       
+    });
 
-    console.log(checkCourses.My_course?.course_title)
-
+    // console.log(checkCourses.My_course?.course_title)
+useEffect(() => {
+    db.collection("users").doc()
+    .onSnapshot((doc) => {
+        console.log("Current data: ", doc.data());
+    });
+}, [])
       
    const config = {
     public_key: 'FLWPUBK_TEST-7b521e071b80d99d62e26ac695a0dbca-X',
@@ -124,20 +132,32 @@ function CourseDetails() {
        if(response.status === 'successful') {
 
         var userId = firebase.auth().currentUser.uid
-        setIsPaid(true)
-        firebase.database()
-            .ref('users/' + userId)
-            .set(
+       
+         db.collection('users').doc(userId).collection("myTest").add(
             {
-               My_course: {
-                course_title: show.courseTitle,
-                course_price: show.price,
-                paid: true
-                }
-            }); 
-              console.log('i have done it')
-       } 
-
+                   course_title: show?.courseTitle,
+                   course_price: show?.price,
+                   paid: true
+                   }
+         )
+      
+        // firebase.database()
+        //     .ref('users/' + userId)
+        //     .set(
+        //     {
+        //        My_course: {
+        //         course_title: show.courseTitle,
+        //         course_price: show.price,
+        //         paid: true
+        //         }
+        //     }); 
+   
+    db.collection("courses").doc(user.uid).set({
+        course_title: show?.courseTitle,
+        course_price: show?.price,
+        paid: true
+    })
+       }
        else{
            console.log('payment not successful')
        }
@@ -148,15 +168,15 @@ function CourseDetails() {
     onClose: () => {},
   };
 
-
-
+  var userId = firebase.auth().currentUser?.uid
+console.log("this is uid",userId);
     function EnrollButton() {
-        if (user && checkCourses.My_course?.course_title !== show?.courseTitle){
+        if (user && checkCourses?.My_course?.course_title !== show?.courseTitle){
             return <button type="button" className="enroll-btn" ><FlutterWaveButton {...fwConfig} /> </button>
             
         }
 
-        else if(user && checkCourses.My_course?.course_title === show?.courseTitle ){
+        else if(user && checkCourses?.My_course?.course_title === show?.courseTitle ){
             return <button type="button" className="enroll-btn" >Already Enrolled</button>
         }
 
@@ -289,6 +309,7 @@ function CourseDetails() {
                                                     <li><i className="las la-certificate"></i> Certification: <span>Yes</span></li>
                                                 </ul>
                                                <EnrollButton />
+                                          
                                             </div>
                                         </Col>
                                       
