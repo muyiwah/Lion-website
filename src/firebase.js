@@ -1,16 +1,16 @@
 import firebase from "firebase";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD-FqmdsbibkTG1h3tsl_HzlZ73gmilPKI",
-  authDomain: "courses-3c1c2.firebaseapp.com",
-  dataBbseURL: "https://courses-3c1c2.firebaseapp.com",
-  projectId: "courses-3c1c2",
-  storageBucket: "courses-3c1c2.appspot.com",
-  messagingSenderId: "249476710058",
-  appId: "1:249476710058:web:6d786e1512eb2902119ad3"
-  };
+  apiKey: "AIzaSyAV5xDBuG0gafcsJqeTLGtCIbPCbjNSMy0",
+  authDomain: "liondynasty-93bf6.firebaseapp.com",
+  projectId: "liondynasty-93bf6",
+  storageBucket: "liondynasty-93bf6.appspot.com",
+  messagingSenderId: "1084810328322",
+  appId: "1:1084810328322:web:a05224413d4c565b1eea1b"
+};
 
-// Initialize Firebase
+
+
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();

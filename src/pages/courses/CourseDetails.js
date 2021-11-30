@@ -20,19 +20,24 @@ function CourseDetails() {
     const login = () => {
         history.push('/login')
     };
+
     // const {
     //     params: { personId },
     //   } = match;
+
     const [user, setUser] = useState('');
     const [isPaid, setIsPaid] = useState(false);
-    const [checkCourses, setCheckCourses] = useState('');
+    const [checkCourses, setCheckCourses] = useState('')
     //   
     const {id} =useParams()
+
     // console.log("this is id", id)
+
     const [myuser, setMyuser]=useState([])
     const [posts, setPosts]=useState([])
+    
     useEffect(() => {
-        db.collection('courses6')
+        db.collection('courses')
           .onSnapshot((snapshot) => {
             setPosts(
                 snapshot.docs.map((doc) => {
@@ -42,16 +47,10 @@ function CourseDetails() {
         });
     }, []); 
 
-    // var userId = firebase.auth().currentUser?.uid
-    // useEffect(() => {
-
-    //     firebase.database().ref('users/' + userId).once("value", snap => {
-    //         console.log(snap.val())
-    //     })
-    // }, []); 
-
     const show = posts.filter(post=> post.courseTitle==id)[0]
+
     // console.log("show",show); 
+
     useEffect(() => {
         const courseButton = document.querySelectorAll(".course-button");
         courseButton.forEach(button => {
@@ -70,10 +69,6 @@ function CourseDetails() {
         });
     });
 
-// let docRef = db.collection("users")
-//             .where("uid", isEqualTo: firebase.auth().currentUser?.uid ?? "")
-
-// console.log(db.collection(`users/${user.uid}`));
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user"));
         setUser(user)
@@ -87,22 +82,22 @@ function CourseDetails() {
 
 
     useEffect(() => {
-        db.collection("users").doc(userId).collection("myTest").onSnapshot((snapshot) => {
+        db.collection("users").doc(userId).collection("my_course").onSnapshot((snapshot) => {
                          snapshot.docs.map((doc) => {
                     console.log( doc.data());
-                    
+                    setCheckCourses(doc.data().course_title)
                 })
             
         });
-        setCheckCourses()
        
     });
 
+    console.log(checkCourses)
     // console.log(checkCourses.My_course?.course_title)
 useEffect(() => {
     db.collection("users").doc()
     .onSnapshot((doc) => {
-        console.log("Current data: ", doc.data());
+        // console.log("Current data: ", doc.data());
     });
 }, [])
       
@@ -133,37 +128,21 @@ useEffect(() => {
 
         var userId = firebase.auth().currentUser.uid
        
-         db.collection('users').doc(userId).collection("myTest").add(
+         db.collection('users').doc(userId).collection("my_course").add(
             {
                    course_title: show?.courseTitle,
                    course_price: show?.price,
                    paid: true
                    }
          )
-      
-        // firebase.database()
-        //     .ref('users/' + userId)
-        //     .set(
-        //     {
-        //        My_course: {
-        //         course_title: show.courseTitle,
-        //         course_price: show.price,
-        //         paid: true
-        //         }
-        //     }); 
-   
-    db.collection("courses").doc(user.uid).set({
-        course_title: show?.courseTitle,
-        course_price: show?.price,
-        paid: true
-    })
+ 
        }
        else{
            console.log('payment not successful')
        }
 
 
-      closePaymentModal() // this will close the modal programmatically
+    //   closePaymentModal() // this will close the modal programmatically
     },
     onClose: () => {},
   };
@@ -171,7 +150,7 @@ useEffect(() => {
   var userId = firebase.auth().currentUser?.uid
 console.log("this is uid",userId);
     function EnrollButton() {
-        if (user && checkCourses?.My_course?.course_title !== show?.courseTitle){
+        if (user){
             return <button type="button" className="enroll-btn" ><FlutterWaveButton {...fwConfig} /> </button>
             
         }
