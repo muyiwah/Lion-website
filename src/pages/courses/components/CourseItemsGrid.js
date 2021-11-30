@@ -10,7 +10,7 @@ function CourseItemGrid () {
     
     const [posts, setPosts]=useState([])
     useEffect(() => {
-        db.collection('courses6')
+        db.collection('courses')
           .onSnapshot((snapshot) => {
             setPosts(
                 snapshot.docs.map((doc) => {
