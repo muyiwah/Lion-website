@@ -8,7 +8,7 @@ import {db} from '../firebase'
 function CourseFilter() {
     const [posts, setPosts]=useState([])
     useEffect(() => {
-        db.collection('courses6')
+        db.collection('courses')
           .onSnapshot((snapshot) => {
             setPosts(
                 snapshot.docs.map((doc) => {

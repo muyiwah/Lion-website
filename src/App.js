@@ -24,7 +24,7 @@ import AccountPage from './pages/AccountPage';
 
 function App() {
     
-    const [myauth, setMyAuth] = useState('')
+    const [myauth, setMyAuth] = useState([])
     
 
     useEffect(() => {
@@ -43,7 +43,6 @@ function App() {
       })
       return unsubscribe;
     }, []);
-
 
     return (
             <Router>
